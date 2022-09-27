@@ -23,9 +23,22 @@ export class CalCComponent implements OnInit {
   input: string = "";
   formulaName: string = "";
   isParsingDone:boolean = false;
-
+  parameterList: string[] = [
+    'Time',
+    'Speed',
+    'ProductCount',
+    'CountIn',
+    'CountOut',
+    'DefectiveProducts',
+  ];
+  trignometry: string[] = [
+    'sin',
+    'cos',
+    'tan',
+  ];
   // Previous Character CHecking Function 
   PreviousChar(){
+    this.isParsingDone = false;
     var prevChar = this.input[this.input.length-1];
     return prevChar;
   }
@@ -140,12 +153,18 @@ export class CalCComponent implements OnInit {
   }
   // Parsing the input string
   parseFunction(){
+    
+    if(this.formulaName.length === 0){
+      this.notifyService.showWarning("Formula Name can't be empty!");
+      return;
+    }
 
     if(this.input.length != 0 && this.parse.isValid(this.input) && this.singleVariableChecking()){
       this.isParsingDone = true;
       this.notifyService.showSuccess("Formula is Correct");
     }
     else{
+      this.isParsingDone = false;
       this.input = "";
       this.notifyService.showError("Formula is Wrong");
     }
@@ -159,5 +178,9 @@ export class CalCComponent implements OnInit {
       expression: this.input,
     }
     this.formulaSerive.addFormula(obj);
+  }
+
+  saveFromulaError(){
+    this.notifyService.showWarning("Parse the formula and then click on save button!");
   }
 }

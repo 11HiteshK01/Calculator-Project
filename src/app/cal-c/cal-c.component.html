@@ -33,18 +33,24 @@
                     <div class="col-lg-4 col-md-6 col-sm-6"><button class=" Buttons" (click)="specialFunctions('Sumof([')">Sumof( )</button></div>
                     <div class="col-lg-4 col-md-6 col-sm-6"><button class=" Buttons" (click)="Symbols('(')">(</button></div>
                     <div class="col-lg-4 col-md-6 col-sm-6"><button class=" Buttons" (click)="Symbols('[')">[</button></div>
-                </div>
-                <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-6"><button class=" Buttons" (click)="specialFunctions('Avgof(')">Avgof( )</button></div>
                     <div class="col-lg-4 col-md-6 col-sm-6"><button class=" Buttons" (click)="Symbols(')')">)</button></div>
                     <div class="col-lg-4 col-md-6 col-sm-6"><button class=" Buttons" (click)="Symbols(']')">]</button></div>
-                </div>
-                <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-6"><button class=" Buttons" (click)="Trignometry('sin(')">sin</button></div>
                     <div class="col-lg-4 col-md-6 col-sm-6"><button class=" Buttons" (click)="Trignometry('cos(')">cos</button></div>
                     <div class="col-lg-4 col-md-6 col-sm-6"><button class=" Buttons" (click)="Trignometry('tan(')">tan</button></div>
+                    <div *ngFor="let variable of parameterList" class="col-lg-4 col-md-6 col-sm-6"><button class="Buttons" (click)="variablesHandling(variable)">{{variable}}</button></div>
+                </div>
+                <!-- <div class="row">
+                    
                 </div>
                 <div class="row">
+                    
+                </div>
+                <div class="row">
+                    
+                </div> -->
+                <!-- <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-6"><button class="Buttons" (click)="variablesHandling('countIn')">countIn</button></div>
                     <div class="col-lg-4 col-md-6 col-sm-6"><button class="Buttons" (click)="variablesHandling('countOut')">countOut</button></div>
                     <div class="col-lg-4 col-md-6 col-sm-6"><button class="Buttons" (click)="variablesHandling('Products')">Products</button></div>
@@ -52,8 +58,8 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-6"><button class="Buttons" (click)="variablesHandling('speed')">speed</button></div>
                     <div class="col-lg-4 col-md-6 col-sm-6"><button class="Buttons" (click)="variablesHandling('time')">time</button></div>
-                    <div class="col-lg-4 col-md-6 col-sm-6"></div>
-                </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6"><button class="Buttons" (click)="variablesHandling('DefectiveProducts')">DefectiveProducts</button></div>
+                </div> -->
 
             </div>
             <div class="col-lg-6 col-md-8">
@@ -62,38 +68,39 @@
                     <div class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons" (click)="Operators(',')">,</button></div>
                     <div class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Operator-Buttons" (click)="Operators('%')">%</button></div>
                     <div class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Operator-Buttons" (click)="Operators('/')">÷</button></div>
-                </div>
-                <div class="row">
                     <div class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Number-Buttons" (click)="Numbers('7')">7</button></div>
                     <div class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Number-Buttons" (click)="Numbers('8')">8</button></div>
                     <div class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Number-Buttons" (click)="Numbers('9')">9</button></div>
                     <div class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Operator-Buttons" (click)="Operators('*')">x</button></div>
-                </div>
-                <div class="row">
                     <div class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Number-Buttons" (click)="Numbers('4')">4</button></div>
                     <div class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Number-Buttons" (click)="Numbers('5')">5</button></div>
                     <div class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Number-Buttons" (click)="Numbers('6')">6</button></div>
                     <div class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Operator-Buttons" (click)="Operators('-')">-</button></div>
-                </div>
-                <div class="row">
                     <div class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Number-Buttons" (click)="Numbers('1')">1</button></div>
                     <div class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Number-Buttons" (click)="Numbers('2')">2</button></div>
                     <div class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Number-Buttons" (click)="Numbers('3')">3</button></div>
                     <div class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Operator-Buttons" (click)="Operators('+')">+</button></div>
-                </div>
-                <div class="row">
                     <div class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Func-Buttons" (click)="parseFunction()">Parse</button></div>
-                    <div *ngIf = "!isParsingDone" class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Func-Buttons" disabled>Save</button></div>
+                    <div *ngIf = "!isParsingDone" class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Func-Buttons" (click)="saveFromulaError()">Save</button></div>
                     <div *ngIf = "isParsingDone" class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Func-Buttons" (click)="saveFormula()" [routerLink]="['/formula-cart']">Save</button></div>
                     <div class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons Number-Buttons" (click)="Numbers('0')">0</button></div>
                     <div class="col-lg-3 col-md-4 col-sm-6"><button class="Buttons ">=</button></div>
                 </div>
+                <!-- <div class="row">
+                    
+                </div>
+                <div class="row">
+                    
+                </div>
+                <div class="row">
+                    
+                </div>
+                <div class="row">
+                    
+                </div> -->
 
             </div>
         </div>
-    </div>
-    <div id="error">
-        
     </div>
 </body>
 </html>

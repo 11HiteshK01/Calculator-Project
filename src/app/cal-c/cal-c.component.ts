@@ -23,6 +23,7 @@ export class CalCComponent implements OnInit {
   input: string = "";
   formulaName: string = "";
   isParsingDone:boolean = false;
+  isDotUsed:boolean = false;
   parameterList: string[] = [
     'Time',
     'Speed',
@@ -59,7 +60,7 @@ export class CalCComponent implements OnInit {
       this.input = this.input + num;
     }
     else{
-      this.notifyService.showWarning("Missing Operator (+,-,*,/,%)");
+      this.notifyService.showWarning("Missing Operator (+,-,*,/)");
     }
   }
 
@@ -69,9 +70,10 @@ export class CalCComponent implements OnInit {
       this.notifyService.showWarning("Add variables and functions to perform operation");
       return;
     }
-    const regex = new RegExp(/[,\+\-\*\/%]/);
+    const regex = new RegExp(/[,\+\-\*\/]/);
     if(!regex.test(this.PreviousChar())){
       this.input = this.input + op;
+      this.isDotUsed = false;
     }
     else{
       this.input = this.input.slice(0,this.input.length-1);
@@ -79,6 +81,21 @@ export class CalCComponent implements OnInit {
     }
   }
 
+  //Dot Operator
+  DotOperators(dot: string){
+    const regex = new RegExp(/[0-9]/);
+    if(this.input.length == 0 || !regex.test(this.PreviousChar())){
+      this.notifyService.showWarning("Add a number[0-9] before using decimal!");
+      return;
+    }
+    if(this.isDotUsed == false){
+      this.isDotUsed = true;
+      this.input = this.input + dot;
+    }
+    else{
+      this.notifyService.showError("Invalid Expression!");
+    }
+  }
   // Variables Handling
   variablesHandling(variable: string){
     if(this.input.length === 0){
@@ -153,7 +170,7 @@ export class CalCComponent implements OnInit {
   }
   // Parsing the input string
   parseFunction(){
-    
+
     if(this.formulaName.length === 0){
       this.notifyService.showWarning("Formula Name can't be empty!");
       return;
